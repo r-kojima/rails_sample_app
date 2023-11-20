@@ -1,0 +1,161 @@
+require:
+  - rubocop-rails
+  - rubocop-performance
+  - rubocop-rspec
+
+inherit_from:
+  - .rubocop_target.yml
+
+inherit_mode:
+  merge:
+    - Include
+    - Exclude
+
+AllCops:
+  DisabledByDefault: true
+  DisplayCopNames: true
+  DisplayStyleGuide: true
+  NewCops: enable
+  TargetRubyVersion: <%= RUBY_VERSION[/\d+\.\d+/] %>
+  Exclude:
+    - "bin/*"
+    - db/schema.rb
+    - "node_modules/**/*"
+    - "tmp/**/*"
+    - "vendor/**/*"
+
+######### Bundler ##########
+Bundler/OrderedGems:
+  Enabled: false
+
+######### Layout ##########
+Layout/FirstArrayElementIndentation:
+  EnforcedStyle: consistent
+Layout/FirstArrayElementLineBreak:
+  Enabled: true
+Layout/FirstHashElementLineBreak:
+  Enabled: true
+Layout/FirstMethodArgumentLineBreak:
+  Enabled: true
+Layout/HashAlignment:
+  EnforcedColonStyle:
+    - table
+    - key
+  EnforcedHashRocketStyle:
+    - table
+    - key
+Layout/LineLength:
+  Max: 150
+  Exclude:
+    - "spec/**/*"
+    - "db/migrate/*"
+Layout/MultilineArrayLineBreaks:
+  Enabled: true
+Layout/MultilineHashKeyLineBreaks:
+  Enabled: true
+Layout/MultilineMethodArgumentLineBreaks:
+  Enabled: true
+  # grapeのDSL使用時に下のようなケースで指摘され、カッコを使わないといけなくなるのを防ぐためapiは除外する
+  # ```
+  # desc "ログインユーザーの未読情報を取得する", {
+  #   tags: ["unreads"]
+  # }
+  # ```
+  Exclude:
+    - "app/apis/api/**/*"
+Layout/MultilineMethodCallIndentation:
+  EnforcedStyle: indented
+Layout/SpaceAroundEqualsInParameterDefault:
+  EnforcedStyle: no_space
+
+######### Metrics ##########
+Metrics/AbcSize:
+  Enabled: false
+  # Max: 50
+  # Exclude:
+  #   - "test/**/*"
+Metrics/BlockLength:
+  Enabled: false
+  # Max: 50
+  # Exclude:
+  #   - "config/**/*"
+  #   - "test/**/*"
+Metrics/ClassLength:
+  Enabled: false
+  # Max: 200
+  # Exclude:
+  #   - "test/**/*"
+Metrics/MethodLength:
+  Enabled: false
+  # Max: 50
+  # Exclude:
+  #   - "db/migrate/*"
+  #   - "test/**/*"
+Metrics/ParameterLists:
+  Max: 5
+
+######### Naming ##########
+Naming/MemoizedInstanceVariableName:
+  EnforcedStyleForLeadingUnderscores: optional
+Naming/VariableNumber:
+  Enabled: false
+
+######### Performance ##########
+Performance/Casecmp:
+  Enabled: false
+
+######### Rails ##########
+Rails/ApplicationRecord:
+  Exclude:
+    - "db/migrate/**"
+# 関連モデル削除時のパフォーマンスを考慮して無効にする
+Rails/HasManyOrHasOneDependent:
+  Enabled: false
+# タイムスタンプを必須とする必要性がないため無効にする
+Rails/CreateTableWithTimestamps:
+  Enabled: false
+Rails/RakeEnvironment:
+  Enabled: false
+Rails/RefuteMethods:
+  Enabled: false
+Rails/UnknownEnv:
+  Environments:
+    - production
+    - development
+    - test
+    - staging
+Rails/Validation:
+  Enabled: false
+
+######### Rspec ##########
+RSpec/ContextWording:
+  AllowedPatterns:
+    - とき$
+    - 時$
+    - 場合$
+RSpec/FilePath:
+  Enabled: false
+RSpec/MultipleExpectations:
+  Enabled: false
+RSpec/MultipleMemoizedHelpers:
+  Max: 20
+
+######### Style ##########
+Style/BarePercentLiterals:
+  EnforcedStyle: percent_q
+Style/ClassAndModuleChildren:
+  Enabled: false
+Style/Documentation:
+  Enabled: false
+Style/DoubleNegation:
+  Enabled: false
+Style/EmptyMethod:
+  Enabled: false
+Style/FrozenStringLiteralComment:
+  Enabled: false
+Style/NumericPredicate:
+  Enabled: false
+Style/StringLiterals:
+  EnforcedStyle: double_quotes
+Style/TrivialAccessors:
+  AllowPredicates: true
